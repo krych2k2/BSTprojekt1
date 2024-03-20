@@ -71,57 +71,7 @@
                 <li>Działania prowadzone w ramach akcji edukacyjnej.</li>
             </ul>
         </div>
-        <p class="counter-label">Licznik wejść na stronę - <span id="visitCount"></span></p>
     </div>
 
-
-    <script>
-        function setCookie(cname, cvalue, exdays) {
-            var d = new Date();
-            d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-            var expires = "expires="+d.toUTCString();
-            document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-        }
-
-        function getCookie(cname) {
-            var name = cname + "=";
-            var decodedCookie = decodeURIComponent(document.cookie);
-            var ca = decodedCookie.split(';');
-            for(var i = 0; i <ca.length; i++) {
-                var c = ca[i];
-                while (c.charAt(0) == ' ') {
-                    c = c.substring(1);
-                }
-                if (c.indexOf(name) == 0) {
-                    return c.substring(name.length, c.length);
-                }
-            }
-            return "";
-        }
-
-        function checkCookie() {
-            var ipCookie = getCookie("visitor_ip");
-            if (ipCookie == "") {
-                // This is a new visitor, set cookie and increase count
-                setCookie("visitor_ip", "visited", 30);
-                var countCookie = getCookie("visit_count");
-                var count = 1;
-                if (countCookie != "") {
-                    count = parseInt(countCookie) + 1;
-                }
-                setCookie("visit_count", count, 30);
-                return count;
-            } else {
-                var countCookie = getCookie("visit_count");
-                if (countCookie != "") {
-                    return countCookie;
-                }
-            }
-            return 0;
-        }
-
-        var visitCount = checkCookie();
-        document.getElementById("visitCount").innerText = visitCount;
-    </script>
 </body>
 </html>
