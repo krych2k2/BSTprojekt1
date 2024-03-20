@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uwaga! Uległeś(aś) skutecznej próbie phishingu!</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: justify;
+            /* Zmiana tła na kremowy */
+            background-color: #fff8e1; /* Jasny kremowy kolor */
+        }
+        .content {
+            max-width: 800px;
+            padding: 20px;
+        }
+        .warning {
+            background-color: #ffcccc;
+            border: 1px solid #ff0000;
+            padding: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .rules {
+            background-color: #f0f0f0;
+            border: 1px solid #cccccc;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        .rules ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        #visitCount {
+            font-size: 40px;
+        }
+        .counter-label {
+            font-size: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <div class="warning">
+            <p><strong>Uwaga!</strong> Uległeś(aś) skutecznej próbie phishingu!</p>
+            <p>Wyłudzanie informacji, złośliwe oprogramowanie i ataki typu „odmowa usługi” były najczęstszymi przyczynami naruszeń danych w 2021 r.</p>
+            <p>Raport CISCO dotyczący trendów w zakresie cyberbezpieczeństwa w 2021 r. wskazuje, że phishing stanowi około 90% naruszeń danych, a co najmniej jedna osoba kliknęła łącze phishingowe w około 86% badanych organizacji.</p>
+        </div>
+        <div class="rules">
+            <p><strong>Zasady bezpieczeństwa w sieci:</strong></p>
+            <ul>
+                <li>Nie otwieraj wiadomości i załączników otrzymanych e-mailem od nieznanych nadawców.</li>
+                <li>Nie otwieraj żadnych linków załączonych do wiadomości pochodzących z nieznanego źródła.</li>
+                <li>Nigdy nie przesyłaj danych wrażliwych, tj. haseł i loginów w wiadomościach tekstowych czy mailowych.</li>
+                <li>Działania prowadzone w ramach akcji edukacyjnej.</li>
+            </ul>
+        </div>
+        <p class="counter-label">Licznik wejść na stronę - <span id="visitCount"></span></p>
+    </div>
+
+
+    <script>
+        function setCookie(cname, cvalue, exdays) {
+            var d = new Date();
+            d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+            var expires = "expires="+d.toUTCString();
+            document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+        }
+
+        function getCookie(cname) {
+            var name = cname + "=";
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var ca = decodedCookie.split(';');
+            for(var i = 0; i <ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        }
+
+        function checkCookie() {
+            var ipCookie = getCookie("visitor_ip");
+            if (ipCookie == "") {
+                // This is a new visitor, set cookie and increase count
+                setCookie("visitor_ip", "visited", 30);
+                var countCookie = getCookie("visit_count");
+                var count = 1;
+                if (countCookie != "") {
+                    count = parseInt(countCookie) + 1;
+                }
+                setCookie("visit_count", count, 30);
+                return count;
+            } else {
+                var countCookie = getCookie("visit_count");
+                if (countCookie != "") {
+                    return countCookie;
+                }
+            }
+            return 0;
+        }
+
+        var visitCount = checkCookie();
+        document.getElementById("visitCount").innerText = visitCount;
+    </script>
+</body>
+</html>
